@@ -1,0 +1,132 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+use ieee.std_logic_unsigned.all;
+
+ENTITY fsm IS
+	PORT
+	(
+		fsm_in_clk, fsm_in_reset	: IN std_logic;
+		fsm_in_sesors_sig			: IN std_logic_vector (1 DOWNTO 0);
+		fsm_in_pcount				: IN std_logic_vector(2 downto 0);
+		------------------------------------------
+		fsm_out_updown: out std_logic;
+		fsm_out_en: out std_logic;
+		fsm_out_reset: out std_logic;
+		fsm_out_empty_flag: out std_logic;
+		fsm_out_full_flag: out std_logic
+	);
+		
+END ENTITY fsm;
+
+ARCHITECTURE fsm_behv OF fsm IS
+
+	TYPE fsm_state_type IS							-- Type to represent current FSM state
+	(
+			fsm_init_state,
+			fsm_empty_state,
+			fsm_inc_dec_state,
+			fsm_full_state
+	);
+	
+	SIGNAL fsm_current_state	:	fsm_state_type;		-- A signal to hold current fsm state
+	
+	SIGNAL fsm_empty_queue_flag	:	std_logic	:= '1';	-- A flag to indictae the queue is empty
+	SIGNAL fsm_full_queue_flag	:	std_logic	:= '0'; -- A flag to indicate the queue is full 
+
+	BEGIN
+
+		fsm_process	: PROCESS (fsm_in_clk,fsm_in_reset,fsm_in_sesors_sig) IS	-- FSM main process
+		BEGIN
+
+			-- if reset is '1', change FSM state to `fsm_init_state`
+			IF fsm_in_reset = '1' THEN
+				fsm_current_state <= fsm_init_state;
+			
+			-- check for risign edge in the clock signal 
+			ELSIF rising_edge (fsm_in_clk) THEN	
+			
+				CASE fsm_current_state IS	-- check current fsm state
+				
+					-- `fsm_init_state` : Initialize the system --
+					WHEN fsm_init_state =>
+
+						fsm_out_empty_flag <= '1';				-- set empty flag
+						fsm_out_full_flag <= '0';				-- reset full flag
+						fsm_out_updown <= '0';					-- default value counting up
+						fsm_out_en <= '0'; 						-- default enable OF counter IS zero
+						fsm_out_reset <= '1'; 					-- send reset to counter and T_block
+						fsm_current_state <= fsm_empty_state; 	-- next state IS fsm_empty_state
+
+						-- during system initialization, any changes in the inputs are ignored
+						
+					-- `fsm_empty_state` : Queue is empty --
+					WHEN fsm_empty_state =>
+
+						fsm_out_empty_flag <= '1';				-- set the empty flag
+						fsm_out_full_flag <= '0';				-- reset the full flag
+						fsm_out_updown <= '0';					-- default value : counting up
+						fsm_out_en <= '0';						-- disable counter, default enable of counter is zero
+						fsm_out_reset <= '0'; 					-- disable system reset
+						
+						-- someone entered the queue
+						IF fsm_in_sesors_sig'event and fsm_in_sesors_sig(0) = '1' THEN
+							fsm_current_state <= fsm_inc_dec_state;
+						ELSE 	-- when input IS '01' or '11'
+							fsm_current_state <= fsm_empty_state; -- ERROR DISPLAY??
+						END IF;						-- END IF (someone entered the queue)
+					
+					--INCREMENT OR DECREMENT--
+					WHEN fsm_inc_dec_state =>
+					
+						fsm_out_empty_flag <= '0';	-- clear fsm_empty_state flag
+						fsm_out_full_flag <= '0';		-- clear fsm_full_state flag
+						fsm_out_reset <= '0'; 		-- disable reset to counter and T_block
+						
+						-- someone entered the queue
+						IF fsm_in_sesors_sig(0)'event and fsm_in_sesors_sig(0) = '1' THEN 
+							
+							fsm_out_updown <= '0';	-- counter will count up
+							fsm_out_en <= '1';	-- enable counter
+							
+							IF fsm_in_pcount = "110" THEN		-- IF queue IS 6, change state to fsm_full_state
+								fsm_current_state = fsm_full_state;
+							ELSE
+								curre <= fsm_inc_dec_state;		-- ELSE keep current state
+							END IF;		-- END IF (fsm_in_pcount = 6)
+						END IF;		-- end if fsm_in_sesors_sig(0)'event
+						
+						-- somone left the queue
+						IF fsm_in_sesors_sig(1)'event and fsm_in_sesors_sig(1) = '1' THEN 
+							
+							fsm_out_updown <= '1';	-- counter will count down
+							fsm_out_en <= '1';	-- enable counter
+							
+							IF fsm_in_pcount = "001" THEN
+								fsm_current_state <= fsm_empty_state;	-- change state to emoty
+							ELSE 
+								fsm_current_state <= fsm_inc_dec_state;	-- keep current state
+							END IF;		-- END IF (fsm_in_pcount = 1)
+						
+						ELSE
+							fsm_out_en <= '0';		-- disable counter
+						END IF;
+						
+					--FULL--	
+					WHEN fsm_full_state =>
+					
+						fsm_out_empty_flag <= '0';
+						fsm_out_full_flag <= '1';
+						fsm_out_reset <= '0'; 				-- disable reset to counter and T_block
+						fsm_out_en <= '1'; 		-- disable counter
+						fsm_out_en <= '0'; 		-- counter default IS counting up
+						
+						-- IF someone left the queue
+						IF fsm_in_sesors_sig(1)'event and fsm_in_sesors_sig(1) = '1' THEN
+							fsm_current_state <= fsm_inc_dec_state;	-- change current state
+						ELSE
+							fsm_current_state <= fsm_full_state; 		-- stay in the same state
+						END IF;	
+						
+				END CASE;		
+		END PROCESS fsm_process;
+END ARCHITECTURE fsm_behv;

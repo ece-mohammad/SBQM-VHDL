@@ -1,0 +1,81 @@
+F:/ITI/VHDL/OTHERS/Project/SBQM/sbqm.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/sbqm.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity sbqm
+-- Compiling architecture sbqm_behav of sbqm
+-- Loading entity clock_generic
+-- Loading entity dff
+-- Loading entity rising_edge_detector
+-- Loading entity decoder_3x2
+-- Loading package NUMERIC_STD
+-- Loading entity counter_generic
+-- Loading entity fsm
+-- Loading entity BCD_7segment
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package std_logic_textio
+-- Loading entity rom
+
+} {} {}} F:/ITI/VHDL/OTHERS/Project/SBQM/clock.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/clock.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity clock_generic
+-- Compiling architecture clock_behav of clock_generic
+
+} {} {}} F:/ITI/VHDL/OTHERS/Project/SBQM/dff.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/dff.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity dff
+-- Compiling architecture dff_behav of dff
+
+} {} {}} F:/ITI/VHDL/OTHERS/Project/SBQM/counter_generic.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/counter_generic.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity counter_generic
+-- Compiling architecture counter_generic_behav of counter_generic
+
+} {} {}} F:/ITI/VHDL/OTHERS/Project/SBQM/rising_edge_detector.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/rising_edge_detector.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity rising_edge_detector
+-- Compiling architecture rising_edge_detector_behav of rising_edge_detector
+
+} {} {}} F:/ITI/VHDL/OTHERS/Project/SBQM/decoder_3x2.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/decoder_3x2.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity decoder_3x2
+-- Compiling architecture decoder_3x2_behav of decoder_3x2
+
+} {} {}} F:/ITI/VHDL/OTHERS/Project/SBQM/7segment.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/7segment.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity BCD_7segment
+-- Compiling architecture behav_7segment of BCD_7segment
+
+} {} {}} F:/ITI/VHDL/OTHERS/Project/SBQM/ROM.vhd {1 {vcom -work work -2002 -explicit -stats=none F:/ITI/VHDL/OTHERS/Project/SBQM/ROM.vhd
+Model Technology ModelSim ALTERA vcom 10.4b Compiler 2015.05 May 27 2015
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package STD_LOGIC_UNSIGNED
+-- Loading package std_logic_textio
+-- Compiling entity rom
+-- Compiling architecture ROM_function_arch of rom
+
+} {} {}}

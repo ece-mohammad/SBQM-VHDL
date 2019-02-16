@@ -1,0 +1,381 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+dF:/Projects/VHDL/Tutorials/FPGA_Tutorials_with_VHDL
+Ebcd_7segment
+Z0 w1549562595
+Z1 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z2 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z3 dF:/ITI/VHDL/OTHERS/Project/SBQM
+Z4 8F:/ITI/VHDL/OTHERS/Project/SBQM/7segment.vhd
+Z5 FF:/ITI/VHDL/OTHERS/Project/SBQM/7segment.vhd
+l0
+L5
+V=<8IXG6X7FA1]zR2?F]U[3
+!s100 ;bQHRLFacmnLM;a2`1iAS1
+Z6 OV;C;10.4b;61
+32
+Z7 !s110 1549571484
+!i10b 1
+Z8 !s108 1549571484.000000
+Z9 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/7segment.vhd|
+Z10 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/7segment.vhd|
+!i113 1
+Z11 o-work work -2002 -explicit
+Z12 tExplicit 1
+Abehav_7segment
+R1
+R2
+Z13 DEx4 work 12 bcd_7segment 0 22 =<8IXG6X7FA1]zR2?F]U[3
+l17
+L15
+Vejc?QDPkIfkC^oUUKg7>j1
+!s100 A@_FL7nWn4gFAQjTMCP;V2
+R6
+32
+R7
+!i10b 1
+R8
+R9
+R10
+!i113 1
+R11
+R12
+Eclock_generic
+Z14 w1549449887
+R1
+R2
+R3
+Z15 8F:/ITI/VHDL/OTHERS/Project/SBQM/clock.vhd
+Z16 FF:/ITI/VHDL/OTHERS/Project/SBQM/clock.vhd
+l0
+L4
+V[CCd8onjVbPJ]jC0R6FXo3
+!s100 L@SWE:bOD4Qf@@J;Y?E<33
+R6
+32
+R7
+!i10b 1
+R8
+Z17 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/clock.vhd|
+Z18 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/clock.vhd|
+!i113 1
+R11
+R12
+Aclock_behav
+R1
+R2
+Z19 DEx4 work 13 clock_generic 0 22 [CCd8onjVbPJ]jC0R6FXo3
+l19
+L18
+V]2AP1`nAzNBSFfU?5@40;1
+!s100 eaMYR?0C:9Y_A0bK0S`BB1
+R6
+32
+R7
+!i10b 1
+R8
+R17
+R18
+!i113 1
+R11
+R12
+Ecounter_generic
+Z20 w1549563984
+Z21 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+R1
+R2
+R3
+Z22 8F:/ITI/VHDL/OTHERS/Project/SBQM/counter_generic.vhd
+Z23 FF:/ITI/VHDL/OTHERS/Project/SBQM/counter_generic.vhd
+l0
+L5
+Vok2D8HUSgVSccDgT?=8_Y0
+!s100 ONCmO1633>NlCg@liUE4M1
+R6
+32
+R7
+!i10b 1
+R8
+Z24 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/counter_generic.vhd|
+Z25 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/counter_generic.vhd|
+!i113 1
+R11
+R12
+Acounter_generic_behav
+R21
+R1
+R2
+Z26 DEx4 work 15 counter_generic 0 22 ok2D8HUSgVSccDgT?=8_Y0
+l20
+L16
+VAhPmUh;27cT2kDn8`5J5V0
+!s100 6kJ>z[>=T=_<k>h[<;NW_3
+R6
+32
+R7
+!i10b 1
+R8
+R24
+R25
+!i113 1
+R11
+R12
+Edecoder_3x2
+Z27 w1549543137
+R1
+R2
+R3
+Z28 8F:/ITI/VHDL/OTHERS/Project/SBQM/decoder_3x2.vhd
+Z29 FF:/ITI/VHDL/OTHERS/Project/SBQM/decoder_3x2.vhd
+l0
+L4
+VmDXcK2n`30B]7V>T<2deJ2
+!s100 Q[BcE]0o7[_0ADF1m32[e3
+R6
+32
+Z30 !s110 1549571485
+!i10b 1
+Z31 !s108 1549571485.000000
+Z32 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/decoder_3x2.vhd|
+Z33 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/decoder_3x2.vhd|
+!i113 1
+R11
+R12
+Adecoder_3x2_behav
+R1
+R2
+Z34 DEx4 work 11 decoder_3x2 0 22 mDXcK2n`30B]7V>T<2deJ2
+l15
+L14
+Z35 VR436JTd6Vnl:6=:KRJT:Z0
+Z36 !s100 nH?I4aEVXkz1dS0n;dW5]3
+R6
+32
+R30
+!i10b 1
+R31
+R32
+R33
+!i113 1
+R11
+R12
+Edff
+Z37 w1549554630
+R1
+R2
+R3
+Z38 8F:/ITI/VHDL/OTHERS/Project/SBQM/dff.vhd
+Z39 FF:/ITI/VHDL/OTHERS/Project/SBQM/dff.vhd
+l0
+L4
+VJ3OkBH3ndT@0ie]cYYNef0
+!s100 mX:FUh;DE4B^Ylj[AXf>_2
+R6
+32
+R7
+!i10b 1
+R8
+Z40 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/dff.vhd|
+Z41 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/dff.vhd|
+!i113 1
+R11
+R12
+Adff_behav
+R1
+R2
+Z42 DEx4 work 3 dff 0 22 J3OkBH3ndT@0ie]cYYNef0
+l15
+L14
+VDN9L2_8dYf2M1NPzABU6:3
+!s100 eECCWFoiN`WBRh<jPOZ512
+R6
+32
+R7
+!i10b 1
+R8
+R40
+R41
+!i113 1
+R11
+R12
+Efsm
+Z43 w1549571479
+R1
+R2
+R3
+Z44 8F:/ITI/VHDL/OTHERS/Project/SBQM/fsm.vhd
+Z45 FF:/ITI/VHDL/OTHERS/Project/SBQM/fsm.vhd
+l0
+L4
+V7@`644`XmkOcBCMloM]J^2
+!s100 kVBN6AkCBPejeW;`iVCl:1
+R6
+32
+R7
+!i10b 1
+R8
+Z46 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/fsm.vhd|
+Z47 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/fsm.vhd|
+!i113 1
+R11
+R12
+Afsm_behav
+R1
+R2
+Z48 DEx4 work 3 fsm 0 22 7@`644`XmkOcBCMloM]J^2
+l34
+L21
+V4>[P;;oDX=Po@@lQh`7gl1
+!s100 1]DdDelmmUgVn8@o_aXZ23
+R6
+32
+R7
+!i10b 1
+R8
+R46
+R47
+!i113 1
+R11
+R12
+Erising_edge_detector
+Z49 w1549557971
+R1
+R2
+R3
+Z50 8F:/ITI/VHDL/OTHERS/Project/SBQM/rising_edge_detector.vhd
+Z51 FF:/ITI/VHDL/OTHERS/Project/SBQM/rising_edge_detector.vhd
+l0
+L4
+VhgN41:N@IGeD0i9CZB9Bl3
+!s100 6=e6];<LH05VSl`cW:FbQ0
+R6
+32
+R30
+!i10b 1
+R31
+Z52 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/rising_edge_detector.vhd|
+Z53 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/rising_edge_detector.vhd|
+!i113 1
+R11
+R12
+Arising_edge_detector_behav
+R1
+R2
+Z54 DEx4 work 20 rising_edge_detector 0 22 hgN41:N@IGeD0i9CZB9Bl3
+l20
+L15
+VR^`PzXg0l?l?1EIiN;Q1P1
+!s100 ^W_S<1P9E3N1iP670Jc5m3
+R6
+32
+R30
+!i10b 1
+R31
+R52
+R53
+!i113 1
+R11
+R12
+Erom
+Z55 w1549564152
+Z56 DPx4 ieee 16 std_logic_textio 0 22 V5TSK`;aJKC<l]CEg1>mz1
+Z57 DPx4 ieee 15 std_logic_arith 0 22 [G314=:2zXJ`VORJe1J@Z1
+Z58 DPx4 ieee 18 std_logic_unsigned 0 22 ;eZjO2D4ZDz<]0>8AL<ne1
+R1
+R2
+R3
+Z59 8F:/ITI/VHDL/OTHERS/Project/SBQM/ROM.vhd
+Z60 FF:/ITI/VHDL/OTHERS/Project/SBQM/ROM.vhd
+l0
+L7
+Vg>8T4Ql<Af:hch?dSBDa=3
+!s100 BKa1<[nE08`<IQZ8gIJm>1
+R6
+32
+R7
+!i10b 1
+R8
+Z61 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/ROM.vhd|
+Z62 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/ROM.vhd|
+!i113 1
+R11
+R12
+Arom_function_arch
+R56
+R57
+R58
+R1
+R2
+Z63 DEx4 work 3 rom 0 22 g>8T4Ql<Af:hch?dSBDa=3
+l51
+L25
+V@5i]?z]kU6ZHBMIe^HJ;P1
+!s100 OSXW[TgQmCG7F>^9m^KSB2
+R6
+32
+R7
+!i10b 1
+R8
+R61
+R62
+!i113 1
+R11
+R12
+Esbqm
+Z64 w1549561604
+R1
+R2
+R3
+Z65 8F:/ITI/VHDL/OTHERS/Project/SBQM/sbqm.vhd
+Z66 FF:/ITI/VHDL/OTHERS/Project/SBQM/sbqm.vhd
+l0
+L4
+VVTc_VXG5BZ=cOccGk8m2n0
+!s100 35FbceRgn<Fl0dQkmR3^^2
+R6
+32
+R7
+!i10b 1
+R8
+Z67 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|F:/ITI/VHDL/OTHERS/Project/SBQM/sbqm.vhd|
+Z68 !s107 F:/ITI/VHDL/OTHERS/Project/SBQM/sbqm.vhd|
+!i113 1
+R11
+R12
+Asbqm_behav
+R56
+R57
+R58
+R63
+R13
+R48
+R21
+R26
+R34
+R54
+R42
+R19
+R1
+R2
+DEx4 work 4 sbqm 0 22 VTc_VXG5BZ=cOccGk8m2n0
+l219
+L21
+VDHVobJ64HD0]4cUTn[TNk2
+!s100 ^6FGIP4okZZ5GRz:8[VO42
+R6
+32
+R7
+!i10b 1
+R8
+R67
+R68
+!i113 1
+R11
+R12

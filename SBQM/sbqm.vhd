@@ -1,0 +1,421 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+
+ENTITY sbqm IS 
+    PORT 
+    (
+        -- Input
+        sbqm_in_tellers                 : IN    std_logic_vector (2 DOWNTO 0) := "000";
+        sbqm_in_master_reset            : IN    std_logic := '0';
+        sbqm_in_photocell_enterance     : IN    std_logic := '0';
+        sbqm_in_photocell_exit          : IN    std_logic := '0';
+        -- Output
+        sbqm_out_empty_flag             : OUT   std_logic := '1';
+        sbqm_out_full_flag              : OUT   std_logic := '0';
+        sbqm_out_queue_7seg             : OUT   std_logic_vector (6 DOWNTO 0) := "0000000";
+        sbqm_out_wtime_7seg_1           : OUT   std_logic_vector (6 DOWNTO 0) := "0000000";
+        sbqm_out_wtime_7seg_2           : OUT   std_logic_vector (6 DOWNTO 0) := "0000000"
+    );
+END ENTITY sbqm;
+
+ARCHITECTURE sbqm_behav OF sbqm IS
+    
+    -- Reset Signal
+    SIGNAL  sbqm_in_master_reset_sig           : std_logic := '0';
+
+
+    -- Clock module
+    COMPONENT sbqm_clock IS
+        GENERIC
+        (
+            clock_half_period_time      : time      := 25 ps
+        );
+
+        PORT
+        (
+            -- Input
+            -- Output
+            clk                         : OUT std_logic := '0'
+        );
+    END COMPONENT sbqm_clock;
+
+    FOR ALL : sbqm_clock             USE ENTITY work.clock_generic(clock_behav);
+
+    -- Clock signal
+    SIGNAL  sbqm_clock_sig                              : std_logic := '0';
+
+
+    -- sbqm synchronizer module (DFFs)
+    COMPONENT sbqm_input_synch IS
+
+        PORT
+        (
+            -- Inputs
+            clk         : IN    std_logic := '0';
+            p           : IN    std_logic := '0';
+            -- Outputs
+            q           : OUT   std_logic
+        );
+
+    END COMPONENT sbqm_input_synch;
+
+    FOR ALL : sbqm_input_synch USE ENTITY WORK.dff(dff_behav);
+
+    -- Queue enterance synch out signal
+    SIGNAL sbqm_queue_enter_synch_out_sig       : std_logic := '0';
+
+    -- Queue exit synch out signal
+    SIGNAL sbqm_queue_exit_synch_out_sig        : std_logic := '0';
+
+    -- Teller 1 synch out signal
+    SIGNAL sbqm_teller_1_synch_out_sig          : std_logic := '0';
+
+    -- Teller 2 synch out signal
+    SIGNAL sbqm_teller_2_synch_out_sig          : std_logic := '0';
+
+    -- Teller 3 synch out signal
+    SIGNAL sbqm_teller_3_synch_out_sig          : std_logic := '0';
+
+
+    -- sbqm edge detector module
+    COMPONENT sbqm_rising_edge_detector IS 
+        PORT
+        (
+            -- Input
+            clk                 : IN    std_logic := '0';
+            ed_in               : IN    std_logic := '0';
+            -- Output
+            ed_out_rising       : OUT   std_logic := '0'
+        );
+    END COMPONENT sbqm_rising_edge_detector;
+
+    FOR ALL : sbqm_rising_edge_detector    USE ENTITY work.rising_edge_detector(rising_edge_detector_behav);
+
+    -- Queue Edge detector input
+        -- sbqm_in_photocell_enterance
+        -- sbqm_in_photocell_exit
+
+    -- Queue Edge detector for queue enterance signals
+    SIGNAL sbqm_queue_enter_edge_detector_out_sig     : std_logic     := '0';
+
+    -- Queue Edge detector for queue exit signals
+    SIGNAL sbqm_queue_exit_edge_detector_out_sig      : std_logic     := '0';
+    
+
+    -- sbqm tellers decoder module
+    COMPONENT sbqm_tellers_decoder IS
+        PORT
+        (
+            -- Input
+            p           : IN    std_logic_vector(2 DOWNTO 0)    := "000";
+            -- Output
+            q           : OUT   std_logic_vector (1 DOWNTO 0)   := "00"
+        );
+    END COMPONENT sbqm_tellers_decoder;
+
+    FOR ALL :   sbqm_tellers_decoder USE ENTITY work.decoder_3x2(decoder_3x2_behav);
+
+    -- Decoder output signal
+    SIGNAL sbqm_decoded_tellers_out_sig     : std_logic_vector (1 DOWNTO 0) := "00";
+
+
+    -- sbqm counter module
+    COMPONENT sbqm_counter IS
+    GENERIC
+     (   
+        size    : positive  := 2
+    );
+     PORT
+     (
+         -- Input
+         counter_in_rst                     : IN    std_logic;
+         counter_in_en                      : IN    std_logic;
+         counter_in_updown                  : IN    std_logic;
+         couter_in_clk                      : IN    std_logic;
+         -- Output
+         counter_out                        : OUT   std_logic_vector ((size -1) DOWNTO 0)
+     );
+    END COMPONENT sbqm_counter;
+    
+    FOR ALL : sbqm_counter          USE ENTITY WORK.counter_generic(counter_generic_behav);
+    
+    -- People counter input
+    -- People counter output
+    SIGNAL sbqm_pcounter_out_sig            : std_logic_vector (2 DOWNTO 0)    := "000";
+
+
+    -- FSM module
+    COMPONENT sbqm_fsm IS 
+        PORT
+        (
+            -- Inputs
+            fsm_in_clk	            : IN std_logic;
+            fsm_in_reset            : IN std_logic;
+            fsm_in_sensors	        : IN std_logic_vector (1 DOWNTO 0);
+            fsm_in_pcount           : IN std_logic_vector (2 downto 0);
+
+            -- Outputs+
+            fsm_out_updown		    : OUT std_logic;
+            fsm_out_en			    : OUT std_logic;
+            fsm_out_empty_flag	    : OUT std_logic;
+            fsm_out_full_flag	    : OUT std_logic
+        );
+    END COMPONENT sbqm_fsm;
+
+    FOR ALL : sbqm_fsm              USE ENTITY WORK.fsm(fsm_behav);
+
+    -- FSM INPUT
+        -- edge detector outputs
+        -- reset
+        -- p_counter output
+    -- FSM output
+    SIGNAL sbqm_fsm_out_counter_enable_sig              : std_logic     := '0';
+    SIGNAL sbqm_fsm_out_counter_up_down_sig             : std_logic     := '0';
+
+
+    -- sbqm_BCD_7segment
+    COMPONENT sbqm_BCD_7segment IS
+        PORT
+        (
+            -- Input
+            BCD_in_sevensegment				    : IN	std_logic_vector (3 DOWNTO 0);
+            -- Output
+            sevensegment_out_BCD_7segment	    : OUT	std_logic_vector (6 DOWNTO 0)
+        );
+
+    END COMPONENT sbqm_BCD_7segment;
+
+    FOR ALL : sbqm_BCD_7segment     USE ENTITY WORK.BCD_7segment(behav_7segment);
+
+
+    -- sbqm_rom
+    COMPONENT sbqm_rom IS 
+        GENERIC
+        (
+            n	: integer	:= 5;
+            m	: integer	:= 8
+        );
+
+        PORT
+        (
+            addr_in_rom		    : IN 	std_logic_vector (n-1 DOWNTO 0);
+            enable_in_rom	    : IN 	std_logic := '1';
+            data_out_rom	    : OUT	std_logic_vector (m-1 DOWNTO 0)
+        );
+    END COMPONENT sbqm_rom;
+
+    FOR ALL : sbqm_rom              USE ENTITY WORK.rom(ROM_function_arch);
+
+    -- ROM input
+        -- p_counter output
+        -- teller counter output
+
+    -- ROM output
+    SIGNAL Sbqm_rom_out_ones_sig                : std_logic_vector (3 DOWNTO 0)    := "0000";
+    SIGNAL Sbqm_rom_out_tens_sig                : std_logic_vector (3 DOWNTO 0)    := "0000";
+    SIGNAL Sbqm_rom_en_sig                      : std_logic := '1';
+
+
+BEGIN   -- begin sbqm_behav
+
+    -- Reset signal
+    sbqm_in_master_reset_sig <= sbqm_in_master_reset;
+
+
+    -- Clock module
+    sbqm_clock_module                   : sbqm_clock
+    GENERIC MAP
+    (
+        clock_half_period_time => 25 ps
+    )
+
+    PORT MAP
+    (
+        -- Input
+        -- Output
+        clk => sbqm_clock_sig
+    );
+
+
+    -- Synchronizer (DFF) for teller 1 input
+    sbqm_input_synch_teller_1                       : sbqm_input_synch
+    PORT MAP
+    (
+        -- Input
+        p => sbqm_in_tellers(0),
+        clk => sbqm_clock_sig,
+        -- Output
+        q => sbqm_teller_1_synch_out_sig
+    );
+    
+
+    -- Synchronizer (DFF) for teller 2 input
+    sbqm_input_synch_teller_2                       : sbqm_input_synch
+    PORT MAP
+    (
+        -- Inputs
+        p => sbqm_in_tellers(1),
+        clk => sbqm_clock_sig,
+        -- Outputs
+        q => sbqm_teller_2_synch_out_sig
+    );
+    
+
+    -- Synchronizer (DFF) for teller 3 input
+    sbqm_input_synch_teller_3                       : sbqm_input_synch
+    PORT MAP
+    (
+        -- Input
+        p => sbqm_in_tellers(2),
+        clk => sbqm_clock_sig,
+        -- Output
+        q => sbqm_teller_3_synch_out_sig
+    );
+
+
+    -- Synchronizer (DFF) for queue eterance input
+    sbqm_input_synch_queue_enter                    : sbqm_input_synch
+    PORT MAP
+    (
+        -- Input
+        p => sbqm_in_photocell_enterance,
+        clk => sbqm_clock_sig,
+        -- Output
+        q => sbqm_queue_enter_synch_out_sig
+    );
+        
+    -- Synchronizer (DFF) for queue exit input
+    sbqm_input_synch_queue_exit                     : sbqm_input_synch
+    PORT MAP
+    (
+        -- Input
+        p => sbqm_in_photocell_exit,
+        clk => sbqm_clock_sig,
+        -- Output
+        q => sbqm_queue_exit_synch_out_sig
+    );
+    
+
+    -- Rising edge detector for queue enterance
+    sbqm_enter_edge_detector_module                 : sbqm_rising_edge_detector
+    PORT MAP 
+    (
+        -- Input
+        ed_in => sbqm_queue_enter_synch_out_sig,
+        clk => sbqm_clock_sig,
+        -- Output
+        ed_out_rising => sbqm_queue_enter_edge_detector_out_sig
+    );
+        
+    
+    -- Rising edge detector for queue exit
+    sbqm_exit_edge_detector_module                  : sbqm_rising_edge_detector
+    PORT MAP 
+    (
+        -- Input
+        ed_in => sbqm_queue_exit_synch_out_sig,
+        clk => sbqm_clock_sig,
+        -- Output
+        ed_out_rising => sbqm_queue_exit_edge_detector_out_sig
+    );
+
+
+    -- Tellers decoder
+    sbqm_tellers_decoder_module                     : sbqm_tellers_decoder
+    PORT MAP
+    (
+        -- Inputs
+        p(0) =>  sbqm_teller_1_synch_out_sig,
+        p(1) => sbqm_teller_2_synch_out_sig,
+        p(2) => sbqm_teller_3_synch_out_sig,
+        -- Outputs
+        q => sbqm_decoded_tellers_out_sig
+    );
+
+
+    -- P_counter
+    sbqm_pcounter_module                            : sbqm_counter
+    GENERIC MAP
+    (
+        size    => 3
+    )
+    
+    PORT MAP
+    (
+        -- Input
+        counter_in_en => sbqm_fsm_out_counter_enable_sig,
+        counter_in_rst => sbqm_in_master_reset_sig,
+        counter_in_updown => sbqm_fsm_out_counter_up_down_sig,
+        couter_in_clk => sbqm_clock_sig,
+        -- Output
+        counter_out => sbqm_pcounter_out_sig
+    );
+
+
+    -- FSM
+    sbqm_fsm_module                                 : sbqm_fsm
+    PORT MAP
+    (
+        -- Input
+        fsm_in_clk =>  sbqm_clock_sig,
+        fsm_in_reset => sbqm_in_master_reset_sig,
+        fsm_in_sensors(0) => sbqm_queue_enter_edge_detector_out_sig,
+        fsm_in_sensors(1) => sbqm_queue_exit_edge_detector_out_sig,
+        fsm_in_pcount => sbqm_pcounter_out_sig,
+        -- Output
+        fsm_out_updown => sbqm_fsm_out_counter_up_down_sig,
+        fsm_out_en	=> sbqm_fsm_out_counter_enable_sig,
+        fsm_out_empty_flag => sbqm_out_empty_flag,
+        fsm_out_full_flag => sbqm_out_full_flag
+    );
+
+    
+    -- ROM
+    sbqm_rom_module                     : sbqm_rom
+    PORT MAP
+    (
+        -- Inputs
+        addr_in_rom( 2 DOWNTO 0 ) => sbqm_pcounter_out_sig,
+        addr_in_rom( 4 DOWNTO 3 ) => sbqm_decoded_tellers_out_sig,
+        enable_in_rom => Sbqm_rom_en_sig,
+        -- Outputs
+        data_out_rom( 3 DOWNTO 0 ) => Sbqm_rom_out_ones_sig,
+        data_out_rom( 7 DOWNTO 4 ) => Sbqm_rom_out_tens_sig
+    );
+
+
+    -- BCD 2 7segment decoder (for pcount )
+    sbqm_bcd_7seg_decoder_pcount        : sbqm_BCD_7segment
+    PORT MAP
+    (
+        -- Input
+        BCD_in_sevensegment(2 DOWNTO 0) => sbqm_pcounter_out_sig,
+        BCD_in_sevensegment(3) => '0',
+        -- Output
+        sevensegment_out_BCD_7segment => sbqm_out_queue_7seg
+    );
+
+
+    -- BCD 2 7segment decoder (for wtime ones)
+    sbqm_bcd_7seg_decoder_wtime_ones    : sbqm_BCD_7segment
+    PORT MAP
+    (
+        -- Input
+        BCD_in_sevensegment => Sbqm_rom_out_ones_sig,
+        -- Output
+        sevensegment_out_BCD_7segment => sbqm_out_wtime_7seg_1
+    );
+    
+
+    -- BCD 2 7segment decoder (for wtime tens)
+    sbqm_bcd_7seg_decoder_wtime_tens    : sbqm_BCD_7segment
+    PORT MAP
+    (
+        -- Input
+        BCD_in_sevensegment => Sbqm_rom_out_tens_sig,
+        -- Output
+        sevensegment_out_BCD_7segment => sbqm_out_wtime_7seg_2
+    );
+
+
+END ARCHITECTURE sbqm_behav;
